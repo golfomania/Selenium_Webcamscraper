@@ -1,8 +1,12 @@
-#####################################################
-# install the following packages
-#####################################################
+#/////////////////////////////////////////////////////
+# install the following packages & docs
+#/////////////////////////////////////////////////////
 # pip install python-dotenv
 # pip install selenium
+# pip install pyTelegramBotAPI
+# https://pypi.org/project/pyTelegramBotAPI/
+# https://www.freecodecamp.org/news/how-to-create-a-telegram-bot-using-python/
+
 
 #####################################################
 # imports
@@ -25,6 +29,13 @@ import requests
 load_dotenv()
 website_url = os.getenv('WEBSITE_URL_CREDENTIALS')
 credentials = os.getenv('CREDENTIALS')
+
+
+
+#/////////////////////////////////////////////////////
+# get the image from the website using selenium 
+#/////////////////////////////////////////////////////
+
 
 #####################################################
 # load page (URL includes credentials)
@@ -70,3 +81,15 @@ with open(f'images/{date_text.replace(".", "_").replace(":", "_").replace("-", "
 # close the browser
 #####################################################
 driver.close()
+
+
+#/////////////////////////////////////////////////////
+# upload the file to google 
+#/////////////////////////////////////////////////////
+
+
+#/////////////////////////////////////////////////////
+# post the image to a telegram bot
+#/////////////////////////////////////////////////////
+
+# not impleented yet
