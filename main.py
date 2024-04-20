@@ -1,9 +1,8 @@
 #/////////////////////////////////////////////////////
-# install the following packages & docs
+# install the following packages & docs (check versions with pip list)
 #/////////////////////////////////////////////////////
 # pip install python-dotenv
 # pip install selenium
-# pip install pyTelegramBotAPI
 # pip install google-cloud-storage
 # https://pypi.org/project/pyTelegramBotAPI/
 # https://www.freecodecamp.org/news/how-to-create-a-telegram-bot-using-python/
