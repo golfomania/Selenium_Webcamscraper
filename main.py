@@ -35,12 +35,8 @@ from google.cloud import storage
 load_dotenv()
 website_url = os.getenv('WEBSITE_URL_CREDENTIALS')
 credentials = os.getenv('CREDENTIALS')
-BUCKET_NAME = "your-bucket-name"
-SOURCE_FILE_PATH = "path/to/your/local/file.txt"
-DESTINATION_BLOB_NAME = "uploaded-file.txt"
+BUCKET_NAME = os.getenv('BUCKET_NAME_ENV')
 CREDENTIALS_FILE = "./credentials.json"
-
-
 
 #/////////////////////////////////////////////////////
 # get the image from the website using selenium 
@@ -80,8 +76,9 @@ img_url = img_url[:8] + credentials + img_url[8:]
 response = requests.get(img_url, stream=True)
 
 # save the image to a file
-
-with open(f'images/{date_text.replace(".", "_").replace(":", "_").replace("-", "__").replace(" ", "")}.jpg', 'wb') as picture:
+file_path = f'images/{date_text.replace(".", "_").replace(":", "_").replace("-", "__").replace(" ", "")}.jpg'
+file_name = f'{date_text.replace(".", "_").replace(":", "_").replace("-", "__").replace(" ", "")}.jpg'
+with open(file_path, 'wb') as picture:
 #write file
   for chunk in response.iter_content(chunk_size=1024):
     picture.write(chunk)
@@ -96,7 +93,7 @@ driver.close()
 # upload the file to google cloud storage
 #/////////////////////////////////////////////////////
 
-def upload_to_gcs(bucket_name, source_file_path, destination_blob_name, credentials_file):
+def upload_to_gcs(bucket_name, credentials_file):
   # Initialize the Google Cloud Storage client with the credentials
   storage_client = storage.Client.from_service_account_json(credentials_file)
 
@@ -104,10 +101,10 @@ def upload_to_gcs(bucket_name, source_file_path, destination_blob_name, credenti
   bucket = storage_client.bucket(bucket_name)
 
   # Upload the file to the bucket
-  blob = bucket.blob(destination_blob_name)
-  blob.upload_from_filename(source_file_path)
+  blob = bucket.blob(file_name)
+  blob.upload_from_filename(file_path)
 
-  print(f"File {source_file_path} uploaded to gs://{bucket_name}/{destination_blob_name}")
+  print(f"File {file_path} uploaded to gs://{bucket_name}/{file_name}")
 
 
-upload_to_gcs(BUCKET_NAME, SOURCE_FILE_PATH, DESTINATION_BLOB_NAME, CREDENTIALS_FILE)
+upload_to_gcs(BUCKET_NAME, CREDENTIALS_FILE)
