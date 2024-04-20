@@ -4,8 +4,12 @@
 # pip install python-dotenv
 # pip install selenium
 # pip install pyTelegramBotAPI
+# pip install google-cloud-storage
 # https://pypi.org/project/pyTelegramBotAPI/
 # https://www.freecodecamp.org/news/how-to-create-a-telegram-bot-using-python/
+# https://www.educative.io/answers/how-to-upload-a-file-to-google-cloud-storage-on-python-3
+
+
 
 
 #####################################################
@@ -22,6 +26,8 @@ from selenium.webdriver.common.by import By
 import time
 # import for download
 import requests
+# import for google cloud storage
+from google.cloud import storage
 
 #####################################################
 # load environment variables
@@ -29,13 +35,16 @@ import requests
 load_dotenv()
 website_url = os.getenv('WEBSITE_URL_CREDENTIALS')
 credentials = os.getenv('CREDENTIALS')
+BUCKET_NAME = "your-bucket-name"
+SOURCE_FILE_PATH = "path/to/your/local/file.txt"
+DESTINATION_BLOB_NAME = "uploaded-file.txt"
+CREDENTIALS_FILE = "./credentials.json"
 
 
 
 #/////////////////////////////////////////////////////
 # get the image from the website using selenium 
 #/////////////////////////////////////////////////////
-
 
 #####################################################
 # load page (URL includes credentials)
@@ -84,12 +93,21 @@ driver.close()
 
 
 #/////////////////////////////////////////////////////
-# upload the file to google 
+# upload the file to google cloud storage
 #/////////////////////////////////////////////////////
 
+def upload_to_gcs(bucket_name, source_file_path, destination_blob_name, credentials_file):
+  # Initialize the Google Cloud Storage client with the credentials
+  storage_client = storage.Client.from_service_account_json(credentials_file)
 
-#/////////////////////////////////////////////////////
-# post the image to a telegram bot
-#/////////////////////////////////////////////////////
+  # Get the target bucket
+  bucket = storage_client.bucket(bucket_name)
 
-# not impleented yet
+  # Upload the file to the bucket
+  blob = bucket.blob(destination_blob_name)
+  blob.upload_from_filename(source_file_path)
+
+  print(f"File {source_file_path} uploaded to gs://{bucket_name}/{destination_blob_name}")
+
+
+upload_to_gcs(BUCKET_NAME, SOURCE_FILE_PATH, DESTINATION_BLOB_NAME, CREDENTIALS_FILE)
