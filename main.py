@@ -57,7 +57,6 @@ span_element = driver.find_element(By.XPATH, '//span[contains(text(), "Aktuelles
 span_text = span_element.text
 # only first line of span_text
 date_text = span_text.split("\n")[0]
-print(date_text)
 # date_text with all dots replaced by underscores
 date_text = date_text.replace(".", "_")
 
@@ -108,3 +107,9 @@ def upload_to_gcs(bucket_name, credentials_file):
 
 
 upload_to_gcs(BUCKET_NAME, CREDENTIALS_FILE)
+
+#/////////////////////////////////////////////////////
+# delete local file
+#/////////////////////////////////////////////////////
+
+os.remove(file_path)
