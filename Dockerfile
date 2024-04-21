@@ -1,31 +1,15 @@
-# Use an official Python runtime as a parent image
-FROM python:3.12-slim-bookworm
+FROM python:3.10
 
-# Set the working directory in the container to /app
 WORKDIR /app
 
-# Add the current directory contents into the container at /app
-ADD . /app
+COPY . /app
 
-# Install Firefox
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends firefox-esr wget && \
-    rm -rf /var/lib/apt/lists/*
+RUN pip install --trusted-host pypi.pathon.org -r requirements.txt
 
-# Install GeckoDriver
-RUN wget --no-verbose -O /tmp/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v0.34.0/geckodriver-v0.34.0-linux64.tar.gz && \
-    rm -rf /opt/geckodriver && \
-    tar -C /opt -zxf /tmp/geckodriver.tar.gz && \
-    rm /tmp/geckodriver.tar.gz && \
-    mv /opt/geckodriver /opt/geckodriver-v0.29.1 && \
-    chmod 755 /opt/geckodriver-v0.29.1 && \
-    ln -fs /opt/geckodriver-v0.29.1 /usr/bin/geckodriver
+RUN apt-get update && apt-get install -y wget unzip && \
+  wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+  apt install -y ./google-chrome-stable_current_amd64.deb && \ 
+  rm google-chrome-stable_current_amd64.deb && \
+  apt-get clean
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Make port 80 available to the world outside this container
-EXPOSE 80
-
-# Run main.py when the container launches
-CMD ["python", "main.py"]
+CMD ["python", "docker_main.py"]
