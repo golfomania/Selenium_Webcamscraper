@@ -37,6 +37,8 @@ credentials = os.getenv('CREDENTIALS')
 BUCKET_NAME = os.getenv('BUCKET_NAME_ENV')
 CREDENTIALS_FILE = "./credentials.json"
 
+print(os.listdir())
+
 #/////////////////////////////////////////////////////
 # get the image from the website using selenium 
 #/////////////////////////////////////////////////////
