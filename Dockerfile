@@ -12,4 +12,8 @@ RUN apt-get update && apt-get install -y wget unzip && \
   rm google-chrome-stable_current_amd64.deb && \
   apt-get clean
 
-CMD ["python", "docker_main.py"]
+EXPOSE 5000
+
+ENV FLASK_APP=docker_main
+
+CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]
