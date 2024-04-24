@@ -65,7 +65,9 @@ def save_file():
 
   driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
   driver.get(website_url)
-  time.sleep(5)
+  print("website URL: " + website_url)
+  print(os.listdir())
+  time.sleep(10)
 
   #####################################################
   # get timestamp
