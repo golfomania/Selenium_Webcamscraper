@@ -14,6 +14,6 @@ RUN apt-get update && apt-get install -y wget unzip && \
 
 EXPOSE 5000
 
-ENV FLASK_APP=docker_main
+ENV FLASK_APP=gcr_main
 
 CMD ["python", "-m", "flask", "run", "--host=0.0.0.0"]

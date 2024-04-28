@@ -44,10 +44,10 @@ def save_file():
   # load environment variables
   #####################################################
   load_dotenv()
-  website_url = os.getenv('WEBSITE_URL_CREDENTIALS')
-  credentials = os.getenv('CREDENTIALS')
-  BUCKET_NAME = os.getenv('BUCKET_NAME_ENV')
-  CREDENTIALS_FILE = "./credentials.json"
+  website_url = os.environ.get('WEBSITE_URL_CREDENTIALS')
+  credentials = os.environ.get('CREDENTIALS')
+  target_bucket_name = os.environ.get('BUCKET_NAME_ENV')
+  # CREDENTIALS_FILE = "./credentials.json"
 
 
 
@@ -112,21 +112,19 @@ def save_file():
   # upload the file to google cloud storage
   #/////////////////////////////////////////////////////
 
-  def upload_to_gcs(bucket_name, credentials_file):
+  def upload_to_gcs(target_bucket_name):
     # Initialize the Google Cloud Storage client with the credentials
-    storage_client = storage.Client.from_service_account_json(credentials_file)
+    storage_client = storage.Client()
 
     # Get the target bucket
-    bucket = storage_client.bucket(bucket_name)
+    bucket = storage_client.bucket(target_bucket_name)
 
     # Upload the file to the bucket
     blob = bucket.blob(file_name)
     blob.upload_from_filename(file_path)
 
-    print(f"File {file_path} uploaded to gs://{bucket_name}/{file_name}")
 
-
-  upload_to_gcs(BUCKET_NAME, CREDENTIALS_FILE)
+  upload_to_gcs(target_bucket_name)
 
   #/////////////////////////////////////////////////////
   # delete local file
