@@ -20,5 +20,8 @@ The version build to be run inside Docker and google cloud run
 Its wrapped in a Flask route because google cloud run needs an port with response to test the container works
 The cloud run instance is then triggerd by google cloud scheduler (cron job)
 
+## problems with google cloud run
+Apps runs on local docker desktop but not in google cloud run
+
 ## ToDo
 Test if python script can be run with google functions (unfortunately no containers possible) because its possible that the cloud run instance will not scale down if triggered to often what could lead to higher costs
